@@ -2,8 +2,35 @@ info.app.name: '@project.name@'
 info.app.version: '@project.version@'
 
 spring:
-    rabbitmq:
-        host: ${RABBIT_HOST:localhost}
+    kafka:
+        bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+        #    properties:
+        #        sasl:
+        #            jaas:
+        #                config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka_username:'admin'} password=${kafka_password:'admin-secret'};
+        #            mechanism: PLAIN
+        #        security:
+        #            protocol: SASL_PLAINTEXT
+#        consumer:
+#            auto-offset-reset: earliest
+#            group-id: example
+#            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#            value-deserializer: org.imartynov.quote.stock.QuoteDeserializer
+#            max-poll-records: 1
+#            fetch-max-wait: 36000
+#            enable-auto-commit: false
+#            client-id: example
+        producer:
+            client-id: stock_exchange
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.imartynov.quote.stock.QuoteSerializer
+            retries: 2
+        jaas:
+            enabled: false
+        listener:
+            poll-timeout: 1800000
+            concurrency: 1
+            ack-mode: manual_immediate
 
 management:
     endpoints:

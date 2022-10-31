@@ -13,10 +13,5 @@ management:
     health:
       show-details: always
 
-input:
-  fanout_count: ${FANOUT_COUNT:3}
-
-
-#stockexchange:
-#  stocks: ABP,GDP,ERR,ZTE,QNX,TRE,IOP
-#  quotePerSecond: 1
+index:
+  inputQueueNumber: ${INPUT_QUEUE_NUMBER:0}

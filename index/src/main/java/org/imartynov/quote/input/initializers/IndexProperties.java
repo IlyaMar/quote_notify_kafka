@@ -7,19 +7,18 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.constraints.Positive;
 
 
-@ConfigurationProperties(prefix = "input")      // read properties with given prefix
+@ConfigurationProperties(prefix = "index")      // read properties with given prefix
 @Validated              // validate with JSR-380. at startup.
 @ConstructorBinding     // create with all-args constructor. immutable.
-public class InputProperties {
-
+public class IndexProperties {
     @Positive
-    private final int fanoutCount;
+    private final int customerShardNumber;  // index sharded by customer_id
 
-    public InputProperties(@Positive int fanoutcount) {
-        this.fanoutCount = fanoutcount;
+    public IndexProperties(@Positive int customerShardNumber) {
+        this.customerShardNumber = customerShardNumber;
     }
 
-    public int getFanoutCount() {
-        return fanoutCount;
+    public int getCustomerShardNumber() {
+        return customerShardNumber;
     }
 }

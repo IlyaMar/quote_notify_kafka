@@ -25,9 +25,14 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.kafka</groupId>-->
+<!--            <artifactId>kafka-clients</artifactId>-->
+<!--            <version>3.3.1</version>-->
+<!--        </dependency>-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -116,10 +121,11 @@
     </build>
 
     <modules>
+        <module>common</module>
         <module>stock_exchange</module>
-        <module>input</module>
         <module>index</module>
-        <module>notification</module>
+<!--        <module>index</module>-->
+<!--        <module>notification</module>-->
     </modules>
 
 </project>
