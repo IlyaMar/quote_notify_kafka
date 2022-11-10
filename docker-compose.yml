@@ -1,72 +1,88 @@
 version: '3.3'
 services:
   zookeeper-1:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - 22181:2181
-  kafka-1:
-    image: confluentinc/cp-kafka:latest
-    depends_on:
-      - zookeeper-1
-    ports:
-      - 29092:29092
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+#    image: confluentinc/cp-zookeeper:latest
+##    image: wurstmeister/zookeeper
+#    environment:
+#      ZOOKEEPER_CLIENT_PORT: 2181
+#      ZOOKEEPER_TICK_TIME: 2000
+#    expose:
+#      - "2181"
+#  kafka-1:
+#    image: confluentinc/cp-kafka:latest
+##    image: wurstmeister/kafka
+#    depends_on:
+#      - zookeeper-1
+#    links:
+#      - zookeeper-1
+#    ports:
+#      - 9092:9092
+#      - 9093:9093
+#    expose:
+#      - "9092"
+#    environment:
+##      KAFKA_BROKER_ID: 1
+#      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+#      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka-1:9092,OUTSIDE://kafka-1:9093
+#      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:SASL_PLAINTEXT
+#      KAFKA_LISTENERS: INSIDE://kafka-1:9092,OUTSIDE://kafka-1:9093
+#      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181
+#      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+#      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+#      KAFKA_SECURITY_PROTOCOL: SASL_PLAINTEXT
+#      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+##      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAINTEXT
+#      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: PLAINTEXT
+#    volumes:
+#      - ./:/etc/kafka
 
   stock-exchange:
   #  image: org.imartynov.quote.notification/stock_exchange
     build: stock_exchange
-    links:
-      - kafka-1
+#    links:
+#      - kafka-1
     ports: []
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      KAFKA_BOOTSTRAP_SERVERS: rc1a-8v4mnkg128rd18od.mdb.yandexcloud.net:9091
+      KAFKA_USER: kafka_user1
+      KAFKA_PASSWORD: sdfkjlIUERELKJC3453
       QUOTE_PER_SECOND: 1000
 
   index-10:
     build: index
-    links:
-      - kafka-1
     ports: []
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      KAFKA_BOOTSTRAP_SERVERS: rc1a-8v4mnkg128rd18od.mdb.yandexcloud.net:9091
+      KAFKA_USER: kafka_user1
+      KAFKA_PASSWORD: sdfkjlIUERELKJC3453
       CUSTOMER_SHARD_NUMBER: 1
 
   index-20:
     build: index
-    links:
-      - kafka-1
     ports: []
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      KAFKA_BOOTSTRAP_SERVERS: rc1a-8v4mnkg128rd18od.mdb.yandexcloud.net:9091
+      KAFKA_USER: kafka_user1
+      KAFKA_PASSWORD: sdfkjlIUERELKJC3453
       CUSTOMER_SHARD_NUMBER: 2
 
   index-11:
     build: index
-    links:
-      - kafka-1
-    ports: []
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      KAFKA_BOOTSTRAP_SERVERS: rc1a-8v4mnkg128rd18od.mdb.yandexcloud.net:9091
+      KAFKA_USER: kafka_user1
+      KAFKA_PASSWORD: sdfkjlIUERELKJC3453
       CUSTOMER_SHARD_NUMBER: 1
 
-  index-21:
+  index-22:
     build: index
-    links:
-      - kafka-1
-    ports: []
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: kafka-1:9092
+      KAFKA_BOOTSTRAP_SERVERS: rc1a-8v4mnkg128rd18od.mdb.yandexcloud.net:9091
+      KAFKA_USER: kafka_user1
+      KAFKA_PASSWORD: sdfkjlIUERELKJC3453
       CUSTOMER_SHARD_NUMBER: 2
+
+
 #
 #index:
 #  build: index

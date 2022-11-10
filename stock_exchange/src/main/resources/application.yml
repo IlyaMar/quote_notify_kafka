@@ -4,22 +4,18 @@ info.app.version: '@project.version@'
 spring:
     kafka:
         bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
-        #    properties:
-        #        sasl:
-        #            jaas:
-        #                config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka_username:'admin'} password=${kafka_password:'admin-secret'};
-        #            mechanism: PLAIN
-        #        security:
-        #            protocol: SASL_PLAINTEXT
-#        consumer:
-#            auto-offset-reset: earliest
-#            group-id: example
-#            key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-#            value-deserializer: org.imartynov.quote.stock.QuoteDeserializer
-#            max-poll-records: 1
-#            fetch-max-wait: 36000
-#            enable-auto-commit: false
-#            client-id: example
+        properties:
+            sasl:
+                jaas:
+#                    config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka_username:'admin'} password=${kafka_password:'admin-secret'};
+#                    config: org.apache.kafka.common.security.scram.ScramLoginModule required username=kafka_user1 password=sdfkjlIUERELKJC3453;
+                    config: org.apache.kafka.common.security.scram.ScramLoginModule required username=${KAFKA_USER} password=${KAFKA_PASSWORD};
+                mechanism: SCRAM-SHA-512
+            security:
+                protocol: SASL_SSL
+        ssl:
+            trust-store-location: file:///ssl_truststore
+            trust-store-password: 1q2w3e
         producer:
             client-id: stock_exchange
             key-serializer: org.apache.kafka.common.serialization.StringSerializer

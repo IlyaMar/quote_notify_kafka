@@ -3,14 +3,17 @@ info.app.version: '@project.version@'
 
 spring:
   kafka:
-    bootstrap-servers: ${kafka_bootstrap_servers:localhost:9092}
-#    properties:
-#      sasl:
-#        jaas:
-#          config: org.apache.kafka.common.security.plain.PlainLoginModule required username=${kafka_username:'admin'} password=${kafka_password:'admin-secret'};
-#        mechanism: PLAIN
-#      security:
-#        protocol: SASL_PLAINTEXT
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    properties:
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username=${KAFKA_USER} password=${KAFKA_PASSWORD};
+        mechanism: SCRAM-SHA-512
+      security:
+        protocol: SASL_SSL
+    ssl:
+      trust-store-location: file:///ssl_truststore
+      trust-store-password: 1q2w3e
     consumer:
       auto-offset-reset: latest
       group-id: ${CUSTOMER_SHARD_NUMBER:0}
@@ -25,6 +28,7 @@ spring:
       enabled: false
     listener:
       poll-timeout: 1800000
+      # 1 thread per topic partition
       concurrency: 1
       ack-mode: manual_immediate
 
